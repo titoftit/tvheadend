@@ -60,6 +60,7 @@
 #include "ffdecsa/FFdecsa.h"
 #include "muxes.h"
 #include "config2.h"
+#include "timeshift.h"
 
 int running;
 time_t dispatch_clock;
@@ -443,6 +444,10 @@ main(int argc, char **argv)
 
   access_init(createdefault);
 
+#if ENABLE_TIMESHIFT
+  timeshift_init();
+#endif
+
   tcp_server_init();
 #if ENABLE_LINUXDVB
   dvb_init(adapter_mask, dvb_rawts_input);
@@ -510,6 +515,10 @@ main(int argc, char **argv)
   mainloop();
 
   epg_save();
+
+#if ENABLE_TIMESHIFT
+  timeshift_term();
+#endif
 
   tvhlog(LOG_NOTICE, "STOP", "Exiting HTS Tvheadend");
 

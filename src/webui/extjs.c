@@ -1888,6 +1888,14 @@ extjs_config(http_connection_t *hc, const char *remain, void *opaque)
       save |= config_set_muxconfpath(str);
     if ((str = http_arg_get(&hc->hc_req_args, "language")))
       save |= config_set_language(str);
+    if ((str = http_arg_get(&hc->hc_req_args, "timeshiftpath")))
+      save |= config_set_timeshift_path(str);
+    if ((str = http_arg_get(&hc->hc_req_args, "timeshiftperiod_unlimited")))
+      save |= config_set_timeshift_period(~0);
+    else if ((str = http_arg_get(&hc->hc_req_args, "timeshiftperiod")))
+      save |= config_set_timeshift_period(atoi(str)*60);
+    if ((str = http_arg_get(&hc->hc_req_args, "timeshiftsize")))
+      save |= config_set_timeshift_size(atoi(str));
     if (save) config_save();
     pthread_mutex_unlock(&global_lock);
     out = htsmsg_create_map();

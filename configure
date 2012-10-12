@@ -20,6 +20,7 @@ OPTIONS=(
   "v4l:yes"
   "linuxdvb:yes"
   "dvbscan:yes"
+  "timeshift:no"
   "avahi:auto"
   "zlib:auto"
   "bundle:no"
